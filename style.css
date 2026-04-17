@@ -1,0 +1,140 @@
+*{
+  box-sizing:border-box;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  margin:0;
+  background:#f1f3f6;
+  max-width:520px;
+  margin:auto;
+  padding:16px;
+}
+
+/* ---------- SEARCH ---------- */
+.search-container{
+  position:sticky;
+  top:0;
+  background:#f1f3f6;
+  padding-bottom:12px;
+  margin-bottom:14px;
+  z-index:100;
+}
+
+.search-wrapper{
+  position:relative;
+}
+
+#searchInput{
+  width:100%;
+  padding:14px 40px 14px 14px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+
+#searchInput:focus{
+  font-size:16px;
+}
+
+#clearSearch{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  display:none;
+}
+
+/* ---------- CARD ---------- */
+.product-card{
+  background:white;
+  padding:14px;
+  border-radius:16px;
+  margin-bottom:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+
+.product-title{
+  font-weight:600;
+  margin-bottom:10px;
+}
+
+/* ---------- PRICE ---------- */
+.price-row{
+  display:flex;
+  margin-bottom:10px;
+}
+
+.price-r-full{
+  width:100%;
+  padding:12px 0;
+  text-align:center;
+  border-radius:12px;
+  color:white;
+  font-weight:600;
+  background:#d65353;
+  font-size:18px;
+}
+
+/* ---------- BOTTOM ---------- */
+.bottom-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.unit{
+  background:#e2e6ea;
+  padding:6px 10px;
+  border-radius:8px;
+  font-size:12px;
+}
+
+.unit-pp{
+  background:#e7f1ff;
+  color:#174ea6;
+}
+
+.restock-btn{
+  background:#2a73d9;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* ---------- RESTOCK NOTE ---------- */
+.restock-note{
+  display:none;
+  margin-top:10px;
+}
+
+.restock-note input{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  margin-bottom:8px;
+}
+
+.restock-note button{
+  background:#2ecc71;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+}
+
+/* ---------- TOAST ---------- */
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#2ecc71;
+  color:white;
+  padding:12px 18px;
+  border-radius:10px;
+}
