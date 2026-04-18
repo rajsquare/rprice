@@ -2,7 +2,7 @@
    GLOBAL STATE
 ================================ */
 let products = [];
-let currentMode = "R"; // Default = Retail
+let currentMode = "W"; // Default = Wholesale
 let lastResults = [];
 
 /* ================================
@@ -12,6 +12,12 @@ const searchInput = document.getElementById("searchInput");
 const resultsDiv = document.getElementById("results");
 const clearBtn = document.getElementById("clearSearch");
 const modeToggle = document.getElementById("modeToggle");
+
+/* ================================
+   INITIAL BUTTON STATE
+================================ */
+modeToggle.innerText = "W";
+modeToggle.style.background = "#2f3f64";
 
 /* ================================
    LOAD DATA
@@ -192,10 +198,6 @@ function submitRestock(id) {
    SINGLE TAP TOGGLE
 ================================ */
 modeToggle.addEventListener("click", () => {
-  toggleMode();
-});
-
-function toggleMode() {
   if (currentMode === "W") {
     currentMode = "R";
     modeToggle.innerText = "R";
@@ -207,7 +209,7 @@ function toggleMode() {
   }
 
   renderResults(lastResults);
-}
+});
 
 /* ================================
    RENDER RESULTS
