@@ -38,8 +38,13 @@ body{
   color:white;
   font-weight:600;
   cursor:pointer;
-  background:#d65353; /* default (R button when W mode active) */
+  background:#2f3f64; /* Default = W (blue) */
   min-width:42px;
+  transition:all 0.15s ease;
+}
+
+#modeToggle:active{
+  transform:scale(0.95);
 }
 
 /* ---------- OPTIONAL SUBTEXT ---------- */
