@@ -37,7 +37,7 @@ body{
   color:white;
   font-weight:600;
   cursor:pointer;
-  background:#2f3f64; /* Default = W (blue) */
+  background:#2f3f64;
   min-width:42px;
   transition:all 0.15s ease;
 }
@@ -67,18 +67,35 @@ body{
   font-size:16px;
 }
 
-/* ---------- CLEAR BUTTON (FIXED, NO VISUAL CHANGE) ---------- */
+/* ---------- CLEAR BUTTON (FINAL FIX) ---------- */
 #clearSearch{
   position:absolute;
-  right:12px;
+  right:14px; /* slightly inward for proper spacing */
   top:50%;
   transform:translateY(-50%);
   cursor:pointer;
   display:none;
 
-  /* Expanded invisible hitbox */
+  /* invisible tap expansion */
   padding:10px;
   margin:-10px;
+}
+
+/* keep original visual style */
+.clear-icon{
+  font-size:16px;
+  font-weight:400;
+  color:#888;
+  line-height:1;
+  display:inline-block;
+
+  /* optical alignment fix */
+  transform:translateY(-1px);
+}
+
+/* subtle press feedback */
+#clearSearch:active .clear-icon{
+  color:#444;
 }
 
 /* ---------- CARD ---------- */
@@ -100,7 +117,7 @@ body{
   margin-bottom:10px;
 }
 
-/* Wholesale (Blue) */
+/* Wholesale */
 .price-w-full{
   width:100%;
   padding:12px 0;
@@ -112,7 +129,7 @@ body{
   font-size:18px;
 }
 
-/* Retail (Red) */
+/* Retail */
 .price-r-full{
   width:100%;
   padding:12px 0;
