@@ -189,26 +189,19 @@ function submitRestock(id) {
 }
 
 /* ================================
-   LONG PRESS TOGGLE
+   DOUBLE TAP TOGGLE
 ================================ */
-let pressTimer = null;
-const LONG_PRESS_DURATION = 1500;
+let lastTapTime = 0;
+const DOUBLE_TAP_DELAY = 300;
 
-function startPress() {
-  modeToggle.style.opacity = "0.7";
+function handleTap() {
+  const now = Date.now();
 
-  pressTimer = setTimeout(() => {
+  if (now - lastTapTime < DOUBLE_TAP_DELAY) {
     toggleMode();
-  }, LONG_PRESS_DURATION);
-}
-
-function cancelPress() {
-  modeToggle.style.opacity = "1";
-
-  if (pressTimer) {
-    clearTimeout(pressTimer);
-    pressTimer = null;
   }
+
+  lastTapTime = now;
 }
 
 function toggleMode() {
@@ -225,17 +218,8 @@ function toggleMode() {
   renderResults(lastResults);
 }
 
-/* ---------- EVENTS ---------- */
-
-/* Desktop */
-modeToggle.addEventListener("mousedown", startPress);
-modeToggle.addEventListener("mouseup", cancelPress);
-modeToggle.addEventListener("mouseleave", cancelPress);
-
-/* Mobile */
-modeToggle.addEventListener("touchstart", startPress);
-modeToggle.addEventListener("touchend", cancelPress);
-modeToggle.addEventListener("touchcancel", cancelPress);
+/* ---------- EVENT ---------- */
+modeToggle.addEventListener("click", handleTap);
 
 /* ================================
    RENDER RESULTS
