@@ -189,20 +189,11 @@ function submitRestock(id) {
 }
 
 /* ================================
-   DOUBLE TAP TOGGLE
+   SINGLE TAP TOGGLE
 ================================ */
-let lastTapTime = 0;
-const DOUBLE_TAP_DELAY = 300;
-
-function handleTap() {
-  const now = Date.now();
-
-  if (now - lastTapTime < DOUBLE_TAP_DELAY) {
-    toggleMode();
-  }
-
-  lastTapTime = now;
-}
+modeToggle.addEventListener("click", () => {
+  toggleMode();
+});
 
 function toggleMode() {
   if (currentMode === "W") {
@@ -217,9 +208,6 @@ function toggleMode() {
 
   renderResults(lastResults);
 }
-
-/* ---------- EVENT ---------- */
-modeToggle.addEventListener("click", handleTap);
 
 /* ================================
    RENDER RESULTS
