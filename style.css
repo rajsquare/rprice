@@ -67,29 +67,27 @@ body{
   font-size:16px;
 }
 
-/* ---------- CLEAR BUTTON (FINAL FIX) ---------- */
+/* ---------- CLEAR BUTTON (FINAL CORRECT) ---------- */
 #clearSearch{
   position:absolute;
-  right:12px; /* ORIGINAL POSITION */
+  right:12px;
   top:50%;
   transform:translateY(-50%);
   cursor:pointer;
   display:none;
 
-  /* ONLY CHANGE: bigger invisible tap area */
+  /* expanded invisible hitbox */
   padding:10px;
   margin:-10px;
-}
 
-.clear-icon{
+  /* original visual style */
   font-size:16px;
-  font-weight:400;
   color:#888;
   line-height:1;
 }
 
 /* subtle press feedback */
-#clearSearch:active .clear-icon{
+#clearSearch:active{
   color:#444;
 }
 
@@ -112,7 +110,7 @@ body{
   margin-bottom:10px;
 }
 
-/* Wholesale (Blue) */
+/* Wholesale */
 .price-w-full{
   width:100%;
   padding:12px 0;
@@ -124,7 +122,7 @@ body{
   font-size:18px;
 }
 
-/* Retail (Red) */
+/* Retail */
 .price-r-full{
   width:100%;
   padding:12px 0;
