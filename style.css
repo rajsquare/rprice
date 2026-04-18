@@ -1,3 +1,5 @@
+
+/* ---------- GLOBAL ---------- */
 *{
   box-sizing:border-box;
 }
@@ -11,7 +13,7 @@ body{
   padding:16px;
 }
 
-/* ---------- SEARCH ---------- */
+/* ---------- HEADER ---------- */
 .search-container{
   position:sticky;
   top:0;
@@ -21,6 +23,34 @@ body{
   z-index:100;
 }
 
+.header-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+/* ---------- TOGGLE BUTTON ---------- */
+#modeToggle{
+  padding:8px 14px;
+  border:none;
+  border-radius:10px;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  background:#d65353; /* default (R button when W mode active) */
+  min-width:42px;
+}
+
+/* ---------- OPTIONAL SUBTEXT ---------- */
+.subtext{
+  font-size:13px;
+  color:#666;
+  margin-top:-6px;
+  margin-bottom:10px;
+}
+
+/* ---------- SEARCH ---------- */
 .search-wrapper{
   position:relative;
 }
@@ -30,10 +60,6 @@ body{
   padding:14px 40px 14px 14px;
   border-radius:12px;
   border:1px solid #ccc;
-  font-size:16px;
-}
-
-#searchInput:focus{
   font-size:16px;
 }
 
@@ -62,10 +88,22 @@ body{
 
 /* ---------- PRICE ---------- */
 .price-row{
-  display:flex;
   margin-bottom:10px;
 }
 
+/* Wholesale (Blue) */
+.price-w-full{
+  width:100%;
+  padding:12px 0;
+  text-align:center;
+  border-radius:12px;
+  color:white;
+  font-weight:600;
+  background:#2f3f64;
+  font-size:18px;
+}
+
+/* Retail (Red) */
 .price-r-full{
   width:100%;
   padding:12px 0;
@@ -77,7 +115,7 @@ body{
   font-size:18px;
 }
 
-/* ---------- BOTTOM ---------- */
+/* ---------- BOTTOM ROW ---------- */
 .bottom-row{
   display:flex;
   justify-content:space-between;
@@ -96,6 +134,7 @@ body{
   color:#174ea6;
 }
 
+/* ---------- BUTTON ---------- */
 .restock-btn{
   background:#2a73d9;
   color:white;
