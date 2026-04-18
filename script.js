@@ -189,17 +189,23 @@ function submitRestock(id) {
 }
 
 /* ================================
-   MODE TOGGLE
+   MODE TOGGLE (STATE-BASED)
 ================================ */
 modeToggle.addEventListener("click", () => {
+
   if (currentMode === "W") {
     currentMode = "R";
-    modeToggle.innerText = "W";
-    modeToggle.style.background = "#2f3f64";
-  } else {
-    currentMode = "W";
+
+    // Button reflects CURRENT mode
     modeToggle.innerText = "R";
     modeToggle.style.background = "#d65353";
+
+  } else {
+    currentMode = "W";
+
+    // Button reflects CURRENT mode
+    modeToggle.innerText = "W";
+    modeToggle.style.background = "#2f3f64";
   }
 
   renderResults(lastResults);
