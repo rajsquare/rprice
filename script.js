@@ -1,22 +1,41 @@
+/* ================================
+   GLOBAL STATE
+================================ */
 let products = [];
+let currentMode = "W"; // Default = Wholesale
+let lastResults = [];
 
+/* ================================
+   DOM ELEMENTS
+================================ */
 const searchInput = document.getElementById("searchInput");
 const resultsDiv = document.getElementById("results");
 const clearBtn = document.getElementById("clearSearch");
+const modeToggle = document.getElementById("modeToggle");
 
-/* ---------- LOAD DATA ---------- */
+/* ================================
+   LOAD DATA
+================================ */
 fetch("data.json")
   .then(res => res.json())
   .then(data => {
     products = data;
   });
 
-/* ---------- NORMALIZE ---------- */
+/* ================================
+   NORMALIZE TEXT
+================================ */
 function normalize(text) {
-  return text.toLowerCase().replace(/[^\w\s]/g, " ").replace(/\s+/g, " ").trim();
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
-/* ---------- SYNONYMS ---------- */
+/* ================================
+   SYNONYMS MAP
+================================ */
 const synonyms = {
   bucket: ["balti", "baldi"],
   balti: ["bucket"],
@@ -53,6 +72,9 @@ const synonyms = {
   ladle: ["kalchul"]
 };
 
+/* ================================
+   EXPAND QUERY
+================================ */
 function expandQuery(query) {
   const words = query.split(" ");
   let expanded = [...words];
@@ -64,7 +86,9 @@ function expandQuery(query) {
   return [...new Set(expanded)];
 }
 
-/* ---------- FUZZY ---------- */
+/* ================================
+   FUZZY MATCH
+================================ */
 function fuzzyMatch(a, b) {
   if (a.includes(b)) return true;
   if (b.length < 4) return false;
@@ -77,7 +101,9 @@ function fuzzyMatch(a, b) {
   return diff <= 1;
 }
 
-/* ---------- SCORE ---------- */
+/* ================================
+   SCORING SYSTEM
+================================ */
 function scoreProduct(product, words, raw) {
   const name = normalize(product.productName);
   let score = 0;
@@ -93,7 +119,9 @@ function scoreProduct(product, words, raw) {
   return score;
 }
 
-/* ---------- SEARCH ---------- */
+/* ================================
+   SEARCH ENGINE
+================================ */
 function searchProducts(query) {
   const clean = normalize(query);
   if (!clean) return [];
@@ -101,13 +129,18 @@ function searchProducts(query) {
   const words = expandQuery(clean);
 
   return products
-    .map(p => ({ product: p, score: scoreProduct(p, words, clean) }))
+    .map(p => ({
+      product: p,
+      score: scoreProduct(p, words, clean)
+    }))
     .filter(r => r.score > 0)
     .sort((a, b) => b.score - a.score)
     .map(r => r.product);
 }
 
-/* ---------- TOAST ---------- */
+/* ================================
+   TOAST
+================================ */
 function showToast(message) {
   const toast = document.createElement("div");
   toast.className = "toast";
@@ -117,7 +150,9 @@ function showToast(message) {
   setTimeout(() => toast.remove(), 2000);
 }
 
-/* ---------- RESTOCK TOGGLE ---------- */
+/* ================================
+   RESTOCK FUNCTIONS
+================================ */
 function toggleRestock(id) {
   const el = document.getElementById("note-" + id);
   if (!el) return;
@@ -125,7 +160,6 @@ function toggleRestock(id) {
   el.style.display = el.style.display === "block" ? "none" : "block";
 }
 
-/* ---------- SUBMIT RESTOCK ---------- */
 function submitRestock(id) {
   const product = products.find(p => p.sr === id);
   if (!product) return;
@@ -154,14 +188,30 @@ function submitRestock(id) {
   showToast("✓ Restock request sent");
 }
 
-/* ---------- RENDER (RETAIL ONLY) ---------- */
+/* ================================
+   MODE TOGGLE
+================================ */
+modeToggle.addEventListener("click", () => {
+  if (currentMode === "W") {
+    currentMode = "R";
+    modeToggle.innerText = "W";
+    modeToggle.style.background = "#2f3f64";
+  } else {
+    currentMode = "W";
+    modeToggle.innerText = "R";
+    modeToggle.style.background = "#d65353";
+  }
+
+  renderResults(lastResults);
+});
+
+/* ================================
+   RENDER RESULTS
+================================ */
 function renderResults(results) {
   resultsDiv.innerHTML = "";
 
-  if (results.length === 0) {
-    resultsDiv.innerHTML = "";
-    return;
-  }
+  if (results.length === 0) return;
 
   results.forEach(item => {
     resultsDiv.innerHTML += `
@@ -172,9 +222,11 @@ function renderResults(results) {
         </div>
 
         <div class="price-row">
-          <div class="price-r-full">
-            ${item.rPrice || "-"}
-          </div>
+          ${
+            currentMode === "W"
+              ? `<div class="price-w-full">${item.wPrice || "-"}</div>`
+              : `<div class="price-r-full">${item.rPrice || "-"}</div>`
+          }
         </div>
 
         <div class="bottom-row">
@@ -197,17 +249,26 @@ function renderResults(results) {
   });
 }
 
-/* ---------- SEARCH EVENT ---------- */
+/* ================================
+   SEARCH EVENTS
+================================ */
 searchInput.addEventListener("input", e => {
   const val = e.target.value;
   clearBtn.style.display = val ? "block" : "none";
-  renderResults(searchProducts(val));
+
+  const results = searchProducts(val);
+  lastResults = results;
+
+  renderResults(results);
 });
 
-/* ---------- CLEAR ---------- */
+/* ================================
+   CLEAR SEARCH
+================================ */
 clearBtn.addEventListener("click", () => {
   searchInput.value = "";
   clearBtn.style.display = "none";
+  lastResults = [];
   renderResults([]);
   searchInput.focus();
 });
