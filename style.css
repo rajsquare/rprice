@@ -46,14 +46,6 @@ body{
   transform:scale(0.95);
 }
 
-/* ---------- OPTIONAL SUBTEXT ---------- */
-.subtext{
-  font-size:13px;
-  color:#666;
-  margin-top:-6px;
-  margin-bottom:10px;
-}
-
 /* ---------- SEARCH ---------- */
 .search-wrapper{
   position:relative;
@@ -61,33 +53,38 @@ body{
 
 #searchInput{
   width:100%;
-  padding:14px 40px 14px 14px;
+  padding:14px 44px 14px 14px; /* extra space for button */
   border-radius:12px;
   border:1px solid #ccc;
   font-size:16px;
 }
 
-/* ---------- CLEAR BUTTON (FINAL CORRECT) ---------- */
+/* ---------- CLEAR BUTTON (FINAL FIX) ---------- */
 #clearSearch{
   position:absolute;
-  right:12px;
+  right:8px;                 /* key: slightly inside edge */
   top:50%;
   transform:translateY(-50%);
-  cursor:pointer;
+
+  width:36px;
+  height:36px;
+
   display:none;
+  align-items:center;
+  justify-content:center;
 
-  /* expanded invisible hitbox */
-  padding:10px;
-  margin:-10px;
+  cursor:pointer;
+}
 
-  /* original visual style */
+/* Visual X */
+.clear-x{
   font-size:16px;
   color:#888;
   line-height:1;
 }
 
-/* subtle press feedback */
-#clearSearch:active{
+/* Tap feedback */
+#clearSearch:active .clear-x{
   color:#444;
 }
 
