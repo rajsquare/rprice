@@ -1,4 +1,3 @@
-
 /* ---------- GLOBAL ---------- */
 *{
   box-sizing:border-box;
@@ -30,7 +29,7 @@ body{
   margin-bottom:10px;
 }
 
-/* ---------- MODE TOGGLE ---------- */
+/* ---------- TOGGLE BUTTON ---------- */
 #modeToggle{
   padding:8px 14px;
   border:none;
@@ -38,13 +37,21 @@ body{
   color:white;
   font-weight:600;
   cursor:pointer;
-  background:#2f3f64; /* Default = W */
+  background:#2f3f64; /* Default = W (blue) */
   min-width:42px;
   transition:all 0.15s ease;
 }
 
 #modeToggle:active{
   transform:scale(0.95);
+}
+
+/* ---------- OPTIONAL SUBTEXT ---------- */
+.subtext{
+  font-size:13px;
+  color:#666;
+  margin-top:-6px;
+  margin-bottom:10px;
 }
 
 /* ---------- SEARCH ---------- */
@@ -54,42 +61,24 @@ body{
 
 #searchInput{
   width:100%;
-  padding:14px 44px 14px 14px; /* space for clear button */
+  padding:14px 40px 14px 14px;
   border-radius:12px;
   border:1px solid #ccc;
   font-size:16px;
 }
 
-/* ---------- CLEAR BUTTON (FIXED CLEAN) ---------- */
+/* ---------- CLEAR BUTTON (FIXED, NO VISUAL CHANGE) ---------- */
 #clearSearch{
   position:absolute;
   right:12px;
   top:50%;
   transform:translateY(-50%);
-  
-  width:36px;
-  height:36px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
   cursor:pointer;
   display:none;
 
-  background:transparent;
-}
-
-.clear-icon{
-  font-size:16px;
-  font-weight:400;
-  color:#888;
-  line-height:1;
-}
-
-/* subtle feedback */
-#clearSearch:active .clear-icon{
-  color:#444;
+  /* Expanded invisible hitbox */
+  padding:10px;
+  margin:-10px;
 }
 
 /* ---------- CARD ---------- */
@@ -111,7 +100,7 @@ body{
   margin-bottom:10px;
 }
 
-/* Wholesale */
+/* Wholesale (Blue) */
 .price-w-full{
   width:100%;
   padding:12px 0;
@@ -123,7 +112,7 @@ body{
   font-size:18px;
 }
 
-/* Retail */
+/* Retail (Red) */
 .price-r-full{
   width:100%;
   padding:12px 0;
