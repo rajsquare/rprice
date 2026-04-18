@@ -2,7 +2,7 @@
    GLOBAL STATE
 ================================ */
 let products = [];
-let currentMode = "W"; // Default = Wholesale
+let currentMode = "R"; // Default = Retail
 let lastResults = [];
 
 /* ================================
@@ -189,27 +189,53 @@ function submitRestock(id) {
 }
 
 /* ================================
-   MODE TOGGLE (STATE-BASED)
+   LONG PRESS TOGGLE
 ================================ */
-modeToggle.addEventListener("click", () => {
+let pressTimer = null;
+const LONG_PRESS_DURATION = 1500;
 
+function startPress() {
+  modeToggle.style.opacity = "0.7";
+
+  pressTimer = setTimeout(() => {
+    toggleMode();
+  }, LONG_PRESS_DURATION);
+}
+
+function cancelPress() {
+  modeToggle.style.opacity = "1";
+
+  if (pressTimer) {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+  }
+}
+
+function toggleMode() {
   if (currentMode === "W") {
     currentMode = "R";
-
-    // Button reflects CURRENT mode
     modeToggle.innerText = "R";
     modeToggle.style.background = "#d65353";
-
   } else {
     currentMode = "W";
-
-    // Button reflects CURRENT mode
     modeToggle.innerText = "W";
     modeToggle.style.background = "#2f3f64";
   }
 
   renderResults(lastResults);
-});
+}
+
+/* ---------- EVENTS ---------- */
+
+/* Desktop */
+modeToggle.addEventListener("mousedown", startPress);
+modeToggle.addEventListener("mouseup", cancelPress);
+modeToggle.addEventListener("mouseleave", cancelPress);
+
+/* Mobile */
+modeToggle.addEventListener("touchstart", startPress);
+modeToggle.addEventListener("touchend", cancelPress);
+modeToggle.addEventListener("touchcancel", cancelPress);
 
 /* ================================
    RENDER RESULTS
