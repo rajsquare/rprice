@@ -24,18 +24,10 @@ modeToggle.innerText = "W";
 modeToggle.style.background = "#2f3f64";
 
 /* ================================
-   LOAD DATA
-================================ */
-fetch("data.json")
-  .then(res => res.json())
-  .then(data => {
-    products = data;
-  });
-
-/* ================================
    NORMALIZE TEXT
 ================================ */
 function normalize(text) {
+
   return text
     .toString()
     .toLowerCase()
@@ -45,9 +37,30 @@ function normalize(text) {
 }
 
 /* ================================
+   LOAD DATA
+================================ */
+fetch("data.json")
+  .then(res => res.json())
+  .then(data => {
+
+    /* PRECOMPUTE SEARCHABLE TEXT */
+    products = data.map(product => ({
+
+      ...product,
+
+      searchableText: normalize(
+        product.productName +
+        " " +
+        (product.material || "")
+      )
+    }));
+  });
+
+/* ================================
    SYNONYMS MAP
 ================================ */
 const synonyms = {
+
   bucket: ["balti", "baldi"],
   balti: ["bucket"],
   baldi: ["bucket"],
@@ -128,13 +141,8 @@ function fuzzyMatch(a, b) {
 ================================ */
 function scoreProduct(product, words, raw) {
 
-  /* SEARCHABLE TEXT:
-     PRODUCT NAME + MATERIAL */
-  const searchableText = normalize(
-    product.productName +
-    " " +
-    (product.material || "")
-  );
+  const searchableText =
+    product.searchableText;
 
   let score = 0;
 
@@ -143,7 +151,7 @@ function scoreProduct(product, words, raw) {
     score += 100;
   }
 
-  /* FULL PHRASE MATCH */
+  /* PHRASE MATCH */
   if (searchableText.includes(raw)) {
     score += 50;
   }
@@ -175,13 +183,13 @@ function searchProducts(query) {
   const words = expandQuery(clean);
 
   let results = products
-    .map(p => ({
-      product: p,
-      score: scoreProduct(p, words, clean)
+    .map(product => ({
+      product,
+      score: scoreProduct(product, words, clean)
     }))
-    .filter(r => r.score > 0)
+    .filter(result => result.score > 0)
     .sort((a, b) => b.score - a.score)
-    .map(r => r.product);
+    .map(result => result.product);
 
   /* MATERIAL FILTER */
   if (activeMaterial) {
@@ -199,7 +207,8 @@ function searchProducts(query) {
 ================================ */
 function showToast(message) {
 
-  const toast = document.createElement("div");
+  const toast =
+    document.createElement("div");
 
   toast.className = "toast";
   toast.innerText = message;
@@ -312,7 +321,7 @@ filterButtons.forEach(button => {
     const clickedMaterial =
       button.dataset.material;
 
-    /* TOGGLE SAME BUTTON OFF */
+    /* TOGGLE OFF */
     if (activeMaterial === clickedMaterial) {
 
       activeMaterial = null;
@@ -322,7 +331,7 @@ filterButtons.forEach(button => {
       activeMaterial = clickedMaterial;
     }
 
-    /* RESET BUTTON STATES */
+    /* RESET STATES */
     filterButtons.forEach(btn => {
 
       btn.classList.remove(
@@ -345,7 +354,6 @@ filterButtons.forEach(button => {
       button.classList.add("active-kansa");
     }
 
-    /* RESEARCH CURRENT INPUT */
     const results =
       searchProducts(searchInput.value);
 
@@ -360,9 +368,13 @@ filterButtons.forEach(button => {
 ================================ */
 function renderResults(results) {
 
-  resultsDiv.innerHTML = "";
+  if (results.length === 0) {
 
-  if (results.length === 0) return;
+    resultsDiv.innerHTML = "";
+    return;
+  }
+
+  let html = "";
 
   results.forEach(item => {
 
@@ -375,7 +387,7 @@ function renderResults(results) {
         `
         : "";
 
-    resultsDiv.innerHTML += `
+    html += `
 
       <div class="product-card">
 
@@ -450,6 +462,8 @@ function renderResults(results) {
       </div>
     `;
   });
+
+  resultsDiv.innerHTML = html;
 }
 
 /* ================================
