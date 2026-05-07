@@ -126,26 +126,21 @@ h1{
   box-shadow:0 1px 3px rgba(0,0,0,.06);
 }
 
-/* Press feedback */
 .filter-btn:active{
   transform:scale(0.96);
 }
 
 /* ---------- ACTIVE STATES ---------- */
-
-/* Brass */
 .filter-btn.active-brass{
   background:#c79b47;
   color:white;
 }
 
-/* Copper */
 .filter-btn.active-copper{
   background:#b86b4b;
   color:white;
 }
 
-/* Kansa */
 .filter-btn.active-kansa{
   background:#6b5b53;
   color:white;
@@ -171,7 +166,6 @@ h1{
   margin-bottom:10px;
 }
 
-/* Wholesale */
 .price-w-full{
   width:100%;
   padding:12px 0;
@@ -183,7 +177,6 @@ h1{
   font-size:18px;
 }
 
-/* Retail */
 .price-r-full{
   width:100%;
   padding:12px 0;
@@ -214,6 +207,29 @@ h1{
 .unit-pp{
   background:#e7f1ff;
   color:#174ea6;
+}
+
+/* ---------- MATERIAL BADGES ---------- */
+.material-badge{
+  font-weight:600;
+}
+
+/* Brass */
+.material-brass{
+  background:#f3e2b3;
+  color:#8a6116;
+}
+
+/* Copper */
+.material-copper{
+  background:#efd1c3;
+  color:#8a4a2f;
+}
+
+/* Kansa */
+.material-kansa{
+  background:#ddd4ce;
+  color:#5f5149;
 }
 
 /* ---------- BUTTON ---------- */
