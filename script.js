@@ -2,8 +2,9 @@
    GLOBAL STATE
 ================================ */
 let products = [];
-let currentMode = "W"; // Default = Wholesale
+let currentMode = "W";
 let lastResults = [];
+let activeMaterial = null;
 
 /* ================================
    DOM ELEMENTS
@@ -12,6 +13,9 @@ const searchInput = document.getElementById("searchInput");
 const resultsDiv = document.getElementById("results");
 const clearBtn = document.getElementById("clearSearch");
 const modeToggle = document.getElementById("modeToggle");
+
+const materialFilter = document.getElementById("materialFilter");
+const filterButtons = document.querySelectorAll(".filter-btn");
 
 /* ================================
    INITIAL BUTTON STATE
@@ -33,6 +37,7 @@ fetch("data.json")
 ================================ */
 function normalize(text) {
   return text
+    .toString()
     .toLowerCase()
     .replace(/[^\w\s]/g, " ")
     .replace(/\s+/g, " ")
@@ -86,7 +91,9 @@ function expandQuery(query) {
   let expanded = [...words];
 
   words.forEach(w => {
-    if (synonyms[w]) expanded.push(...synonyms[w]);
+    if (synonyms[w]) {
+      expanded.push(...synonyms[w]);
+    }
   });
 
   return [...new Set(expanded)];
@@ -97,11 +104,15 @@ function expandQuery(query) {
 ================================ */
 function fuzzyMatch(a, b) {
   if (a.includes(b)) return true;
+
   if (b.length < 4) return false;
 
   let diff = 0;
+
   for (let i = 0; i < Math.min(a.length, b.length); i++) {
-    if (a[i] !== b[i]) diff++;
+    if (a[i] !== b[i]) {
+      diff++;
+    }
   }
 
   return diff <= 1;
@@ -112,13 +123,16 @@ function fuzzyMatch(a, b) {
 ================================ */
 function scoreProduct(product, words, raw) {
   const name = normalize(product.productName);
+
   let score = 0;
 
   if (name === raw) score += 100;
+
   if (name.includes(raw)) score += 50;
 
   words.forEach(w => {
     if (name.includes(w)) score += 10;
+
     if (fuzzyMatch(name, w)) score += 5;
   });
 
@@ -130,11 +144,12 @@ function scoreProduct(product, words, raw) {
 ================================ */
 function searchProducts(query) {
   const clean = normalize(query);
+
   if (!clean) return [];
 
   const words = expandQuery(clean);
 
-  return products
+  let results = products
     .map(p => ({
       product: p,
       score: scoreProduct(p, words, clean)
@@ -142,6 +157,15 @@ function searchProducts(query) {
     .filter(r => r.score > 0)
     .sort((a, b) => b.score - a.score)
     .map(r => r.product);
+
+  /* MATERIAL FILTER */
+  if (activeMaterial) {
+    results = results.filter(product => {
+      return product.material === activeMaterial;
+    });
+  }
+
+  return results;
 }
 
 /* ================================
@@ -149,11 +173,15 @@ function searchProducts(query) {
 ================================ */
 function showToast(message) {
   const toast = document.createElement("div");
+
   toast.className = "toast";
   toast.innerText = message;
+
   document.body.appendChild(toast);
 
-  setTimeout(() => toast.remove(), 2000);
+  setTimeout(() => {
+    toast.remove();
+  }, 2000);
 }
 
 /* ================================
@@ -161,17 +189,27 @@ function showToast(message) {
 ================================ */
 function toggleRestock(id) {
   const el = document.getElementById("note-" + id);
+
   if (!el) return;
 
-  el.style.display = el.style.display === "block" ? "none" : "block";
+  el.style.display =
+    el.style.display === "block"
+      ? "none"
+      : "block";
 }
 
 function submitRestock(id) {
   const product = products.find(p => p.sr === id);
+
   if (!product) return;
 
-  const noteInput = document.querySelector(`#note-${id} input`);
-  const note = noteInput ? noteInput.value.trim() : "";
+  const noteInput =
+    document.querySelector(`#note-${id} input`);
+
+  const note =
+    noteInput
+      ? noteInput.value.trim()
+      : "";
 
   const formURL =
     "https://docs.google.com/forms/d/e/1FAIpQLSchgrkyM1HV8N4WCi7IEfNKuhBcZpYxg2RevxKLTDhsZCphAg/formResponse";
@@ -189,21 +227,30 @@ function submitRestock(id) {
   });
 
   document.getElementById("note-" + id).style.display = "none";
-  if (noteInput) noteInput.value = "";
+
+  if (noteInput) {
+    noteInput.value = "";
+  }
 
   showToast("✓ Restock request sent");
 }
 
 /* ================================
-   SINGLE TAP TOGGLE
+   MODE TOGGLE
 ================================ */
 modeToggle.addEventListener("click", () => {
+
   if (currentMode === "W") {
+
     currentMode = "R";
+
     modeToggle.innerText = "R";
     modeToggle.style.background = "#d65353";
+
   } else {
+
     currentMode = "W";
+
     modeToggle.innerText = "W";
     modeToggle.style.background = "#2f3f64";
   }
@@ -212,14 +259,77 @@ modeToggle.addEventListener("click", () => {
 });
 
 /* ================================
+   MATERIAL FILTER BUTTONS
+================================ */
+filterButtons.forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    const clickedMaterial =
+      button.dataset.material;
+
+    /* SAME BUTTON = TOGGLE OFF */
+    if (activeMaterial === clickedMaterial) {
+
+      activeMaterial = null;
+
+    } else {
+
+      activeMaterial = clickedMaterial;
+    }
+
+    /* RESET BUTTON STATES */
+    filterButtons.forEach(btn => {
+      btn.classList.remove(
+        "active-brass",
+        "active-copper",
+        "active-kansa"
+      );
+    });
+
+    /* APPLY ACTIVE STYLE */
+    if (activeMaterial === "Brass") {
+      button.classList.add("active-brass");
+    }
+
+    if (activeMaterial === "Copper") {
+      button.classList.add("active-copper");
+    }
+
+    if (activeMaterial === "Kansa") {
+      button.classList.add("active-kansa");
+    }
+
+    /* RESEARCH CURRENT QUERY */
+    const results =
+      searchProducts(searchInput.value);
+
+    lastResults = results;
+
+    renderResults(results);
+  });
+});
+
+/* ================================
    RENDER RESULTS
 ================================ */
 function renderResults(results) {
+
   resultsDiv.innerHTML = "";
 
   if (results.length === 0) return;
 
   results.forEach(item => {
+
+    const materialBadge =
+      item.material
+        ? `
+          <div class="unit">
+            ${item.material}
+          </div>
+        `
+        : "";
+
     resultsDiv.innerHTML += `
       <div class="product-card">
 
@@ -230,24 +340,48 @@ function renderResults(results) {
         <div class="price-row">
           ${
             currentMode === "W"
-              ? `<div class="price-w-full">${item.wPrice || "-"}</div>`
-              : `<div class="price-r-full">${item.rPrice || "-"}</div>`
+              ? `
+                <div class="price-w-full">
+                  ${item.wPrice || "-"}
+                </div>
+              `
+              : `
+                <div class="price-r-full">
+                  ${item.rPrice || "-"}
+                </div>
+              `
           }
         </div>
 
         <div class="bottom-row">
-          <div class="unit ${item.priceType === "PP" ? "unit-pp" : ""}">
-            ${item.priceType || ""}
+
+          <div style="display:flex; gap:8px; align-items:center;">
+
+            <div class="unit ${item.priceType === "PP" ? "unit-pp" : ""}">
+              ${item.priceType || ""}
+            </div>
+
+            ${materialBadge}
+
           </div>
 
-          <button class="restock-btn" onclick="toggleRestock(${item.sr})">
+          <button
+            class="restock-btn"
+            onclick="toggleRestock(${item.sr})"
+          >
             Request Restock
           </button>
+
         </div>
 
         <div id="note-${item.sr}" class="restock-note">
+
           <input placeholder="Optional note (size, qty etc)">
-          <button onclick="submitRestock(${item.sr})">Submit</button>
+
+          <button onclick="submitRestock(${item.sr})">
+            Submit
+          </button>
+
         </div>
 
       </div>
@@ -259,10 +393,23 @@ function renderResults(results) {
    SEARCH EVENTS
 ================================ */
 searchInput.addEventListener("input", e => {
+
   const val = e.target.value;
-  clearBtn.style.display = val ? "block" : "none";
+
+  /* CLEAR BUTTON */
+  clearBtn.style.display =
+    val
+      ? "flex"
+      : "none";
+
+  /* FILTER VISIBILITY */
+  materialFilter.style.display =
+    val.trim()
+      ? "block"
+      : "none";
 
   const results = searchProducts(val);
+
   lastResults = results;
 
   renderResults(results);
@@ -272,9 +419,27 @@ searchInput.addEventListener("input", e => {
    CLEAR SEARCH
 ================================ */
 clearBtn.addEventListener("click", () => {
+
   searchInput.value = "";
+
   clearBtn.style.display = "none";
+
+  materialFilter.style.display = "none";
+
+  activeMaterial = null;
+
+  /* RESET FILTER BUTTON STATES */
+  filterButtons.forEach(btn => {
+    btn.classList.remove(
+      "active-brass",
+      "active-copper",
+      "active-kansa"
+    );
+  });
+
   lastResults = [];
+
   renderResults([]);
+
   searchInput.focus();
 });
