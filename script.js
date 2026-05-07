@@ -378,10 +378,25 @@ function renderResults(results) {
 
   results.forEach(item => {
 
+    /* MATERIAL BADGE COLOR */
+    let materialClass = "";
+
+    if (item.material === "Brass") {
+      materialClass = "material-brass";
+    }
+
+    if (item.material === "Copper") {
+      materialClass = "material-copper";
+    }
+
+    if (item.material === "Kansa") {
+      materialClass = "material-kansa";
+    }
+
     const materialBadge =
       item.material
         ? `
-          <div class="unit">
+          <div class="unit material-badge ${materialClass}">
             ${item.material}
           </div>
         `
