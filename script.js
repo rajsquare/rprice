@@ -87,10 +87,13 @@ const synonyms = {
    EXPAND QUERY
 ================================ */
 function expandQuery(query) {
+
   const words = query.split(" ");
+
   let expanded = [...words];
 
   words.forEach(w => {
+
     if (synonyms[w]) {
       expanded.push(...synonyms[w]);
     }
@@ -103,6 +106,7 @@ function expandQuery(query) {
    FUZZY MATCH
 ================================ */
 function fuzzyMatch(a, b) {
+
   if (a.includes(b)) return true;
 
   if (b.length < 4) return false;
@@ -110,6 +114,7 @@ function fuzzyMatch(a, b) {
   let diff = 0;
 
   for (let i = 0; i < Math.min(a.length, b.length); i++) {
+
     if (a[i] !== b[i]) {
       diff++;
     }
@@ -122,18 +127,37 @@ function fuzzyMatch(a, b) {
    SCORING SYSTEM
 ================================ */
 function scoreProduct(product, words, raw) {
-  const name = normalize(product.productName);
+
+  /* SEARCHABLE TEXT:
+     PRODUCT NAME + MATERIAL */
+  const searchableText = normalize(
+    product.productName +
+    " " +
+    (product.material || "")
+  );
 
   let score = 0;
 
-  if (name === raw) score += 100;
+  /* EXACT MATCH */
+  if (searchableText === raw) {
+    score += 100;
+  }
 
-  if (name.includes(raw)) score += 50;
+  /* FULL PHRASE MATCH */
+  if (searchableText.includes(raw)) {
+    score += 50;
+  }
 
+  /* WORD MATCHES */
   words.forEach(w => {
-    if (name.includes(w)) score += 10;
 
-    if (fuzzyMatch(name, w)) score += 5;
+    if (searchableText.includes(w)) {
+      score += 10;
+    }
+
+    if (fuzzyMatch(searchableText, w)) {
+      score += 5;
+    }
   });
 
   return score;
@@ -143,6 +167,7 @@ function scoreProduct(product, words, raw) {
    SEARCH ENGINE
 ================================ */
 function searchProducts(query) {
+
   const clean = normalize(query);
 
   if (!clean) return [];
@@ -160,6 +185,7 @@ function searchProducts(query) {
 
   /* MATERIAL FILTER */
   if (activeMaterial) {
+
     results = results.filter(product => {
       return product.material === activeMaterial;
     });
@@ -172,6 +198,7 @@ function searchProducts(query) {
    TOAST
 ================================ */
 function showToast(message) {
+
   const toast = document.createElement("div");
 
   toast.className = "toast";
@@ -188,7 +215,9 @@ function showToast(message) {
    RESTOCK FUNCTIONS
 ================================ */
 function toggleRestock(id) {
-  const el = document.getElementById("note-" + id);
+
+  const el =
+    document.getElementById("note-" + id);
 
   if (!el) return;
 
@@ -199,7 +228,9 @@ function toggleRestock(id) {
 }
 
 function submitRestock(id) {
-  const product = products.find(p => p.sr === id);
+
+  const product =
+    products.find(p => p.sr === id);
 
   if (!product) return;
 
@@ -216,9 +247,20 @@ function submitRestock(id) {
 
   const formData = new FormData();
 
-  formData.append("entry.1915686954", product.sr);
-  formData.append("entry.1591837856", product.productName);
-  formData.append("entry.1545878342", note);
+  formData.append(
+    "entry.1915686954",
+    product.sr
+  );
+
+  formData.append(
+    "entry.1591837856",
+    product.productName
+  );
+
+  formData.append(
+    "entry.1545878342",
+    note
+  );
 
   fetch(formURL, {
     method: "POST",
@@ -226,7 +268,9 @@ function submitRestock(id) {
     body: formData
   });
 
-  document.getElementById("note-" + id).style.display = "none";
+  document.getElementById(
+    "note-" + id
+  ).style.display = "none";
 
   if (noteInput) {
     noteInput.value = "";
@@ -268,7 +312,7 @@ filterButtons.forEach(button => {
     const clickedMaterial =
       button.dataset.material;
 
-    /* SAME BUTTON = TOGGLE OFF */
+    /* TOGGLE SAME BUTTON OFF */
     if (activeMaterial === clickedMaterial) {
 
       activeMaterial = null;
@@ -280,6 +324,7 @@ filterButtons.forEach(button => {
 
     /* RESET BUTTON STATES */
     filterButtons.forEach(btn => {
+
       btn.classList.remove(
         "active-brass",
         "active-copper",
@@ -287,7 +332,7 @@ filterButtons.forEach(button => {
       );
     });
 
-    /* APPLY ACTIVE STYLE */
+    /* APPLY ACTIVE STATE */
     if (activeMaterial === "Brass") {
       button.classList.add("active-brass");
     }
@@ -300,7 +345,7 @@ filterButtons.forEach(button => {
       button.classList.add("active-kansa");
     }
 
-    /* RESEARCH CURRENT QUERY */
+    /* RESEARCH CURRENT INPUT */
     const results =
       searchProducts(searchInput.value);
 
@@ -331,6 +376,7 @@ function renderResults(results) {
         : "";
 
     resultsDiv.innerHTML += `
+
       <div class="product-card">
 
         <div class="product-title">
@@ -338,24 +384,34 @@ function renderResults(results) {
         </div>
 
         <div class="price-row">
+
           ${
             currentMode === "W"
+
               ? `
                 <div class="price-w-full">
                   ${item.wPrice || "-"}
                 </div>
               `
+
               : `
                 <div class="price-r-full">
                   ${item.rPrice || "-"}
                 </div>
               `
           }
+
         </div>
 
         <div class="bottom-row">
 
-          <div style="display:flex; gap:8px; align-items:center;">
+          <div
+            style="
+              display:flex;
+              gap:8px;
+              align-items:center;
+            "
+          >
 
             <div class="unit ${item.priceType === "PP" ? "unit-pp" : ""}">
               ${item.priceType || ""}
@@ -374,11 +430,18 @@ function renderResults(results) {
 
         </div>
 
-        <div id="note-${item.sr}" class="restock-note">
+        <div
+          id="note-${item.sr}"
+          class="restock-note"
+        >
 
-          <input placeholder="Optional note (size, qty etc)">
+          <input
+            placeholder="Optional note (size, qty etc)"
+          >
 
-          <button onclick="submitRestock(${item.sr})">
+          <button
+            onclick="submitRestock(${item.sr})"
+          >
             Submit
           </button>
 
@@ -408,7 +471,8 @@ searchInput.addEventListener("input", e => {
       ? "block"
       : "none";
 
-  const results = searchProducts(val);
+  const results =
+    searchProducts(val);
 
   lastResults = results;
 
@@ -428,8 +492,9 @@ clearBtn.addEventListener("click", () => {
 
   activeMaterial = null;
 
-  /* RESET FILTER BUTTON STATES */
+  /* RESET FILTER BUTTONS */
   filterButtons.forEach(btn => {
+
     btn.classList.remove(
       "active-brass",
       "active-copper",
