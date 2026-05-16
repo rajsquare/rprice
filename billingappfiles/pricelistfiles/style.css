@@ -1,0 +1,595 @@
+/* ================================
+   DESIGN TOKENS
+================================ */
+:root {
+  /* Backgrounds */
+  --bg-base:            #F5F3F0;
+  --bg-elevated:        #FFFFFF;
+  --bg-sunken:          #EDEAE5;
+
+  /* Text */
+  --text-primary:       #111009;
+  --text-secondary:     #6B6560;
+  --text-muted:         #7E776F;
+  --text-inverse:       #F5F3F0;
+
+  /* Borders */
+  --border-subtle:      #E5E1DB;
+  --border-default:     #D0CAC3;
+  --border-strong:      #B5AEA6;
+
+  /* Action */
+  --action:             #1A1815;
+  --action-hover:       #2C2825;
+
+  /* Semantic */
+  --success:            #15572E;
+  --retail:             #B83B2A;
+
+  /* Material */
+  --brass:              #8A7228;
+  --brass-surface:      #FBF4E0;
+  --copper:             #854832;
+  --copper-surface:     #FBF0EA;
+  --kansa:              #5A5048;
+  --kansa-surface:      #F0EDE8;
+
+  /* Radius */
+  --r-sm:   6px;
+  --r-md:   10px;
+  --r-lg:   16px;
+  --r-full: 999px;
+
+  /* Shadows — chromatic warm */
+  --shadow-xs: 0 1px 2px rgba(12,11,10,0.07);
+  --shadow-sm: 0 1px 2px rgba(12,11,10,0.06), 0 2px 8px rgba(12,11,10,0.04);
+  --shadow-md: 0 2px 8px rgba(12,11,10,0.08), 0 8px 24px rgba(12,11,10,0.06);
+
+  /* Legacy aliases */
+  --color-primary:        #1A1815;
+  --color-primary-dark:   #2C2825;
+  --color-retail:         #B83B2A;
+  --color-success:        #15572E;
+  --color-suite:          #1A1815;
+  --color-suite-dark:     #2C2825;
+  --color-text-primary:   #111009;
+  --color-text-secondary: #6B6560;
+  --color-text-muted:     #7E776F;
+  --color-border:         #E5E1DB;
+  --color-border-strong:  #D0CAC3;
+}
+
+/* ================================
+   GLOBAL
+================================ */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  margin: 0 auto;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  max-width: 600px;
+  padding: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: background 0.14s ease, color 0.14s ease,
+              box-shadow 0.14s ease, transform 0.1s ease,
+              border-color 0.14s ease;
+}
+
+input {
+  font-family: inherit;
+  transition: border-color 0.14s ease;
+}
+
+/* ================================
+   HEADER + SEARCH CONTAINER
+================================ */
+.search-container {
+  position: sticky;
+  top: 0;
+  background: var(--bg-base);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  z-index: 100;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* ================================
+   TITLE
+================================ */
+h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+
+/* ================================
+   HEADER ACTIONS
+================================ */
+.header-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* ================================
+   APP SWITCHER BUTTON
+================================ */
+.app-switch-btn {
+  padding: 9px 13px;
+  border: none;
+  border-radius: var(--r-sm);
+  background: var(--action);
+  color: var(--text-inverse);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shadow-xs);
+  min-height: 38px;
+}
+
+.app-switch-btn:hover {
+  background: var(--action-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-switch-btn:active {
+  transform: scale(0.97);
+}
+
+/* ================================
+   MODE TOGGLE
+================================ */
+#modeToggle {
+  padding: 9px 14px;
+  border: none;
+  border-radius: var(--r-sm);
+  /* background set by JS inline — #2f3f64 (W) or #d65353 (R) */
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  min-width: 40px;
+  min-height: 38px;
+  letter-spacing: 0.02em;
+}
+
+#modeToggle:active {
+  transform: scale(0.97);
+}
+
+/* ================================
+   SEARCH
+================================ */
+.search-wrapper {
+  position: relative;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 13px 44px 13px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-default);
+  font-size: 16px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  outline: none;
+  font-family: inherit;
+  box-shadow: var(--shadow-xs);
+}
+
+#searchInput:focus {
+  border-color: var(--border-strong);
+}
+
+#searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+/* ================================
+   CLEAR BUTTON
+================================ */
+#clearSearch {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--bg-sunken);
+  border-radius: var(--r-full);
+  transition: background 0.14s ease;
+}
+
+#clearSearch:hover {
+  background: var(--border-default);
+}
+
+.clear-x {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  line-height: 1;
+}
+
+#clearSearch:active .clear-x {
+  color: var(--text-primary);
+}
+
+/* ================================
+   MATERIAL FILTER
+================================ */
+.material-filter {
+  display: none;
+  margin-top: 10px;
+}
+
+.filter-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  padding-left: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ================================
+   FILTER BUTTON
+================================ */
+.filter-btn {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+  padding: 7px 13px;
+  border-radius: var(--r-full);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+}
+
+.filter-btn:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.filter-btn:active {
+  transform: scale(0.97);
+}
+
+/* Material dot indicators via data-material attribute */
+.filter-btn[data-material]::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.filter-btn[data-material="Brass"]::before  { background: var(--brass); }
+.filter-btn[data-material="Copper"]::before { background: var(--copper); }
+.filter-btn[data-material="Kansa"]::before  { background: var(--kansa); }
+
+/* Active states — unified near-black regardless of material */
+.filter-btn.active-brass,
+.filter-btn.active-copper,
+.filter-btn.active-kansa {
+  background: var(--action);
+  color: var(--text-inverse);
+  border-color: var(--action);
+  font-weight: 600;
+}
+
+.filter-btn.active-brass::before,
+.filter-btn.active-copper::before,
+.filter-btn.active-kansa::before {
+  background: rgba(245,243,240,0.55);
+}
+
+.filter-btn.active-brass:hover,
+.filter-btn.active-copper:hover,
+.filter-btn.active-kansa:hover {
+  background: var(--action-hover);
+}
+
+/* ================================
+   PRODUCT CARD
+================================ */
+.product-card {
+  background: var(--bg-elevated);
+  padding: 16px;
+  border-radius: var(--r-md);
+  margin-bottom: 8px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.product-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+/* ================================
+   PRICE DISPLAY — REDESIGNED
+   Pure typography, not button-style
+================================ */
+.price-row {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.price-w-full,
+.price-r-full {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  text-align: left;
+  width: auto;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+/* W / R mode labels via pseudo-element */
+.price-w-full::before {
+  content: "W";
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  align-self: center;
+  margin-bottom: 1px;
+  text-transform: uppercase;
+}
+
+.price-r-full::before {
+  content: "R";
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  align-self: center;
+  margin-bottom: 1px;
+  text-transform: uppercase;
+}
+
+.price-w-full {
+  color: var(--text-primary);
+}
+
+.price-r-full {
+  color: var(--retail);
+}
+
+/* ================================
+   BOTTOM ROW
+================================ */
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ================================
+   UNIT BADGES
+================================ */
+.unit {
+  background: var(--bg-sunken);
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.unit-pp {
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ================================
+   MATERIAL BADGES
+================================ */
+.material-badge {
+  font-weight: 500;
+}
+
+.material-brass {
+  background: var(--brass-surface);
+  color: var(--brass);
+}
+
+.material-copper {
+  background: var(--copper-surface);
+  color: var(--copper);
+}
+
+.material-kansa {
+  background: var(--kansa-surface);
+  color: var(--kansa);
+}
+
+/* ================================
+   RESTOCK BUTTON
+================================ */
+.restock-btn {
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+  padding: 7px 12px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.restock-btn:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.restock-btn:active {
+  transform: scale(0.97);
+}
+
+/* ================================
+   RESTOCK NOTE
+================================ */
+.restock-note {
+  display: none;
+  margin-top: 10px;
+}
+
+.restock-note input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border-default);
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  outline: none;
+}
+
+.restock-note input:focus {
+  border-color: var(--border-strong);
+}
+
+.restock-note button {
+  background: var(--success);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.restock-note button:hover {
+  background: #0D3D1F;
+}
+
+/* ================================
+   TOAST
+================================ */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--success);
+  color: white;
+  padding: 11px 18px;
+  border-radius: var(--r-md);
+  font-weight: 600;
+  font-size: 13px;
+  z-index: 999;
+  box-shadow: var(--shadow-md);
+}
+
+/* ================================
+   NO RESULTS
+================================ */
+.no-results {
+  text-align: center;
+  padding: 40px 24px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* ================================
+   PRODUCT CARD STAGGER
+================================ */
+@keyframes cardFadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.product-card {
+  animation: cardFadeUp 0.16s ease both;
+}
+
+.product-card:nth-child(1) { animation-delay: 0ms; }
+.product-card:nth-child(2) { animation-delay: 30ms; }
+.product-card:nth-child(3) { animation-delay: 55ms; }
+.product-card:nth-child(4) { animation-delay: 76ms; }
+.product-card:nth-child(5) { animation-delay: 94ms; }
+
+/* ================================
+   DESKTOP
+================================ */
+@media (min-width: 640px) {
+  body {
+    max-width: 700px;
+    padding: 20px 24px;
+  }
+
+  .search-container {
+    padding-bottom: 14px;
+  }
+
+  .product-card {
+    padding: 18px 20px;
+  }
+
+  .price-w-full,
+  .price-r-full {
+    font-size: 30px;
+  }
+}

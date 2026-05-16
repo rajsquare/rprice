@@ -1,0 +1,2015 @@
+/* ================================
+   DESIGN TOKENS
+================================ */
+:root {
+  /* Backgrounds */
+  --bg-base:            #F5F3F0;
+  --bg-elevated:        #FFFFFF;
+  --bg-sunken:          #EDEAE5;
+
+  /* Text */
+  --text-primary:       #111009;
+  --text-secondary:     #6B6560;
+  --text-muted:         #7E776F;
+  --text-inverse:       #F5F3F0;
+
+  /* Borders */
+  --border-subtle:      #E5E1DB;
+  --border-default:     #D0CAC3;
+  --border-strong:      #B5AEA6;
+
+  /* Action */
+  --action:             #1A1815;
+  --action-hover:       #2C2825;
+
+  /* Semantic */
+  --success:            #15572E;
+  --success-surface:    #F0FBF4;
+  --retail:             #B83B2A;
+  --destructive-surface:#FEF4F2;
+
+  /* Revision */
+  --revision:           #312E81;
+  --revision-surface:   #F0EFFB;
+
+  /* Material */
+  --brass:              #8A7228;
+  --brass-surface:      #FBF4E0;
+  --copper:             #854832;
+  --copper-surface:     #FBF0EA;
+  --kansa:              #5A5048;
+  --kansa-surface:      #F0EDE8;
+
+  /* Radius */
+  --r-sm:   6px;
+  --r-md:   10px;
+  --r-lg:   16px;
+  --r-full: 999px;
+
+  /* Shadows — chromatic warm */
+  --shadow-xs: 0 1px 2px rgba(12,11,10,0.07);
+  --shadow-sm: 0 1px 2px rgba(12,11,10,0.06), 0 2px 8px rgba(12,11,10,0.04);
+  --shadow-md: 0 2px 8px rgba(12,11,10,0.08), 0 8px 24px rgba(12,11,10,0.06);
+  --shadow-lg: 0 8px 32px rgba(12,11,10,0.12), 0 2px 8px rgba(12,11,10,0.06);
+  --shadow-up: 0 -1px 0 rgba(12,11,10,0.06), 0 -6px 20px rgba(12,11,10,0.05);
+
+  /* Legacy aliases — keep so existing var() refs resolve */
+  --color-primary:        #1A1815;
+  --color-primary-dark:   #2C2825;
+  --color-retail:         #B83B2A;
+  --color-success:        #15572E;
+  --color-success-dark:   #0D3D1F;
+  --color-danger-text:    #B83B2A;
+  --color-danger-surface: #FEF4F2;
+  --color-revision:       #312E81;
+  --color-suite:          #1A1815;
+  --color-suite-dark:     #2C2825;
+  --color-bg:             #F5F3F0;
+  --color-surface:        #FFFFFF;
+  --color-border:         #E5E1DB;
+  --color-border-strong:  #D0CAC3;
+  --color-text-primary:   #111009;
+  --color-text-secondary: #6B6560;
+  --color-text-muted:     #7E776F;
+}
+
+/* ================================
+   RESET + BASE
+================================ */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  transition: background 0.14s ease, color 0.14s ease,
+              box-shadow 0.14s ease, transform 0.1s ease,
+              border-color 0.14s ease;
+}
+
+input {
+  transition: border-color 0.14s ease;
+}
+
+/* ================================
+   TABS
+================================ */
+.app-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--border-subtle);
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 11px 10px;
+  border-radius: var(--r-md);
+  background: transparent;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-secondary);
+  letter-spacing: 0em;
+  min-height: 42px;
+}
+
+.tab-btn:hover {
+  background: var(--bg-sunken);
+  color: var(--text-primary);
+}
+
+.tab-btn:active {
+  transform: scale(0.98);
+}
+
+.tab-btn.active {
+  background: var(--action);
+  color: var(--text-inverse);
+  font-weight: 700;
+}
+
+.tab-btn.active:hover {
+  background: var(--action-hover);
+}
+
+.daybook-mini {
+  flex: 0 0 auto;
+  min-width: 84px;
+}
+
+/* ================================
+   MAIN VIEWS
+================================ */
+#billingView,
+#receiverView,
+#daybookView {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* ================================
+   SEARCH
+================================ */
+.search-container {
+  margin-bottom: 12px;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.header-row h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+}
+
+#modeToggle {
+  padding: 9px 14px;
+  border-radius: var(--r-sm);
+  /* background set by JS inline — #2f3f64 (W) or #d65353 (R) */
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  min-width: 40px;
+  min-height: 38px;
+}
+
+#modeToggle:active {
+  transform: scale(0.97);
+}
+
+.search-wrapper {
+  position: relative;
+}
+
+#searchBox {
+  width: 100%;
+  padding: 13px 48px 13px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-default);
+  font-size: 16px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  outline: none;
+  box-shadow: var(--shadow-xs);
+}
+
+#searchBox:focus {
+  border-color: var(--border-strong);
+}
+
+#searchBox::placeholder {
+  color: var(--text-muted);
+}
+
+#clearSearch {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--bg-sunken);
+  border-radius: var(--r-full);
+  cursor: pointer;
+  transition: background 0.14s ease;
+}
+
+#clearSearch:hover {
+  background: var(--border-default);
+}
+
+.clear-x {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  line-height: 1;
+}
+
+#suggestions {
+  margin-top: 8px;
+}
+
+/* ================================
+   MATERIAL FILTER
+================================ */
+.filter-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
+
+.filter-chip {
+  padding: 7px 13px;
+  border-radius: var(--r-full);
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  letter-spacing: 0em;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-chip:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.filter-chip:active {
+  transform: scale(0.97);
+}
+
+/* Active — unified near-black for all materials */
+.filter-chip.active {
+  background: var(--action);
+  color: var(--text-inverse);
+  border-color: var(--action);
+  font-weight: 600;
+}
+
+.filter-chip.active:hover {
+  background: var(--action-hover);
+}
+
+/* Material dot indicators */
+.filter-chip.material-brass::before,
+.filter-chip.material-copper::before,
+.filter-chip.material-kansa::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.filter-chip.material-brass::before  { background: var(--brass); }
+.filter-chip.material-copper::before { background: var(--copper); }
+.filter-chip.material-kansa::before  { background: var(--kansa); }
+
+/* When active, dot goes white */
+.filter-chip.active::before {
+  background: rgba(245,243,240,0.55);
+}
+
+/* Remove old per-material colored backgrounds on chips */
+.filter-chip.material-brass,
+.filter-chip.material-copper,
+.filter-chip.material-kansa {
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+}
+
+.filter-chip.material-brass:hover,
+.filter-chip.material-copper:hover,
+.filter-chip.material-kansa:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+/* ================================
+   BADGES / UNITS
+================================ */
+.badge-row {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.unit {
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+  background: var(--bg-sunken);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+
+.material-brass {
+  background: var(--brass-surface);
+  color: var(--brass);
+}
+
+.material-copper {
+  background: var(--copper-surface);
+  color: var(--copper);
+}
+
+.material-kansa {
+  background: var(--kansa-surface);
+  color: var(--kansa);
+}
+
+/* ================================
+   STATUS BADGES
+================================ */
+.status-pending {
+  background: var(--brass-surface);
+  color: var(--brass);
+}
+
+.status-printed {
+  background: var(--success-surface);
+  color: var(--success);
+}
+
+/* ================================
+   CARDS
+================================ */
+.suggestion-card,
+.bill-card,
+.receiver-card,
+.daybook-entry {
+  background: var(--bg-elevated);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  contain: layout style;
+}
+
+.suggestion-card {
+  cursor: pointer;
+  transition: box-shadow 0.14s ease, border-color 0.14s ease;
+}
+
+.suggestion-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-default);
+}
+
+.suggestion-card:active {
+  box-shadow: var(--shadow-xs);
+}
+
+.suggestion-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.suggestion-name,
+.bill-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.suggestion-price {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.receiver-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+}
+
+.receiver-subtitle {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* ================================
+   BILL INPUTS
+================================ */
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.input-row input:first-child { flex: 0.8; }
+.input-row input:last-child  { flex: 1.2; }
+
+.bill-input {
+  padding: 11px 12px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border-default);
+  font-size: 16px;
+  min-width: 0;
+  outline: none;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  font-variant-numeric: tabular-nums;
+}
+
+.bill-input:focus {
+  border-color: var(--border-strong);
+}
+
+.bill-input::placeholder {
+  color: var(--text-muted);
+}
+
+.discount-note-input {
+  width: 100%;
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.bill-name-input {
+  width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-default);
+  padding: 2px 0;
+  outline: none;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+}
+
+.bill-name-input:focus {
+  border-bottom-color: var(--border-strong);
+}
+
+.bill-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.bill-row-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.line-total {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+/* ================================
+   TOTAL CARD
+================================ */
+.total-card {
+  background: var(--bg-elevated);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  margin-top: 10px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-up);
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.total-row-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.total-label {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.bill-item-count {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+#grandTotal {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.action-buttons,
+#daybookActions,
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+/* ================================
+   BUTTONS
+================================ */
+#sendBtn {
+  width: 100%;
+  padding: 15px;
+  border-radius: var(--r-md);
+  background: var(--action);
+  color: var(--text-inverse);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: var(--shadow-xs);
+}
+
+#sendBtn:hover {
+  background: var(--action-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+#sendBtn:active {
+  transform: scale(0.99);
+  box-shadow: var(--shadow-xs);
+}
+
+.delete-btn {
+  padding: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  min-height: 30px;
+}
+
+.delete-btn:hover {
+  background: var(--destructive-surface);
+  border-color: #FECACA;
+  color: var(--retail);
+}
+
+.delete-btn:active {
+  transform: scale(0.97);
+}
+
+.primary-btn,
+.secondary-btn {
+  flex: 1;
+  min-width: 100px;
+  padding: 13px;
+  border-radius: var(--r-md);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.primary-btn {
+  background: var(--action);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-xs);
+}
+
+.primary-btn:hover {
+  background: var(--action-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.primary-btn:active {
+  transform: scale(0.98);
+}
+
+.send-btn {
+  background: var(--success);
+  color: #FFFFFF;
+  flex: 1;
+  min-width: 100px;
+  padding: 13px;
+  border-radius: var(--r-md);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+}
+
+.send-btn:hover {
+  background: #0D3D1F;
+  box-shadow: var(--shadow-sm);
+}
+
+.send-btn:active {
+  transform: scale(0.98);
+}
+
+.secondary-btn {
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+}
+
+.secondary-btn:hover {
+  background: var(--border-subtle);
+  border-color: var(--border-default);
+  color: var(--text-primary);
+}
+
+.secondary-btn:active {
+  transform: scale(0.98);
+}
+
+/* ================================
+   HEADER CONTROLS
+================================ */
+.header-controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* ================================
+   APP SWITCHER BUTTON
+================================ */
+.app-switch-btn {
+  padding: 9px 13px;
+  border-radius: var(--r-sm);
+  background: var(--action);
+  color: var(--text-inverse);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: var(--shadow-xs);
+  min-height: 38px;
+}
+
+.app-switch-btn:hover {
+  background: var(--action-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-switch-btn:active {
+  transform: scale(0.97);
+}
+
+/* ================================
+   LIVE BUTTON
+================================ */
+#liveBtn {
+  padding: 9px 13px;
+  border-radius: var(--r-sm);
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--border-default);
+  white-space: nowrap;
+  min-height: 38px;
+}
+
+#liveBtn:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+#liveBtn:active {
+  transform: scale(0.97);
+}
+
+#liveBtn.live-btn-active {
+  background: var(--success);
+  color: #D1FAE5;
+  border-color: var(--success);
+}
+
+#liveBtn.live-btn-active:hover {
+  background: #0D3D1F;
+  color: #ECFDF5;
+}
+
+/* ================================
+   MODALS + PREVIEW
+================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(12,11,10,0.44);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+}
+
+.modal-card,
+.preview-card {
+  background: var(--bg-elevated);
+  width: min(95vw, 420px);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+}
+
+.modal-group {
+  margin-top: 16px;
+}
+
+.modal-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.modal-group input {
+  width: 100%;
+  padding: 12px 13px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border-default);
+  font-size: 16px;
+  outline: none;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  transition: border-color 0.14s ease;
+}
+
+.modal-group input:focus {
+  border-color: var(--border-strong);
+}
+
+.modal-group input::placeholder {
+  color: var(--text-muted);
+}
+
+.preview-card {
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-content {
+  overflow-y: auto;
+  max-height: 70vh;
+  margin-top: 12px;
+}
+
+.preview-content .print-wrapper {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  page-break-after: auto;
+  display: block;
+}
+
+.preview-content .copy-label {
+  display: none;
+}
+
+/* ================================
+   DAYBOOK UI
+================================ */
+.daybook-date {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.daybook-name {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.daybook-amount {
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.daybook-group-label {
+  margin-top: 12px;
+  margin-bottom: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  padding: 3px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.daybook-subtotal {
+  margin-top: 3px;
+  margin-bottom: 6px;
+  padding: 9px 12px;
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+/* ================================
+   PRINT FOUNDATION — UNTOUCHED
+================================ */
+#printInvoice {
+  display: none;
+}
+
+.print-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 3mm 2mm 3mm 2mm;
+  border: 1px solid #000;
+  margin: 0 auto;
+  background: white;
+  color: #000;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  display: block;
+}
+
+.bill-page-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  font-weight: 200;
+  color: #000;
+  opacity: 0.08;
+  font-family: Arial, sans-serif;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.receipt-copy {
+  display: flex;
+  flex-direction: column;
+  min-height: 180mm;
+  page-break-after: always;
+}
+
+.receipt-copy:last-child {
+  page-break-after: auto;
+}
+
+.copy-label {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* ================================
+   INVOICE PRINT — UNTOUCHED
+================================ */
+.print-header-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.print-customer {
+  width: 100%;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: left;
+  word-break: break-word;
+  text-transform: uppercase;
+}
+
+.print-date-serial-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.print-date {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.print-serial {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+/* ================================
+   INVOICE TABLE — UNTOUCHED
+================================ */
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 10px;
+  line-height: 1.15;
+}
+
+.print-table th,
+.print-table td {
+  border: 1px solid #000;
+  padding: 4px 3px;
+  vertical-align: middle;
+}
+
+.print-table th { font-weight: 800; }
+
+.print-table th:nth-child(1), .print-table td:nth-child(1) { width: 5%;  text-align: center; white-space: nowrap; }
+.print-table th:nth-child(2), .print-table td:nth-child(2) { width: 44%; text-align: left; word-break: break-word; }
+.print-table th:nth-child(3), .print-table td:nth-child(3) { width: 8%;  text-align: center; white-space: nowrap; }
+.print-table th:nth-child(4), .print-table td:nth-child(4) { width: 9%;  text-align: center; white-space: nowrap; }
+.print-table th:nth-child(5), .print-table td:nth-child(5) { width: 14%; text-align: right; white-space: nowrap; }
+.print-table th:nth-child(6), .print-table td:nth-child(6) { width: 20%; text-align: right; white-space: nowrap; }
+
+/* ================================
+   PRINT TOTALS + BOTTOM — UNTOUCHED
+================================ */
+.print-total {
+  margin-top: 10px;
+  padding: 6px 8px;
+  border: 1px solid #000;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.print-balance {
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.print-balance-large {
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 35px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.receiver-name-box      { margin-top: 22px; }
+.receiver-line          { width: 50mm; border-top: 1px solid #000; }
+.receiver-label         { margin-top: 4px; font-size: 10px; font-weight: 700; line-height: 1.1; }
+.print-office-time      { font-size: 8px; font-weight: 400; color: #444; margin-top: 1px; }
+.print-item-note        { font-size: 8px; font-weight: 400; font-style: italic; color: #333; }
+.receiver-section-divider { margin-top: auto; margin-left: -2mm; margin-right: -2mm; border-top: 1px solid #000; }
+.receiver-name-box-large  { margin-top: 0; padding-top: 6px; }
+.receiver-line-large      { width: 75mm; border-top: 2px solid #000; }
+.receiver-label-large     { margin-top: 6px; font-size: 18px; font-weight: 800; line-height: 1.1; }
+
+/* ================================
+   DAYBOOK PRINT — UNTOUCHED
+================================ */
+.daybook-print-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.daybook-print-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 11px;
+}
+
+.daybook-print-table th,
+.daybook-print-table td {
+  border: 1px solid #000;
+  padding: 5px 6px;
+  vertical-align: top;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.daybook-print-table th:nth-child(1), .daybook-print-table td:nth-child(1) { width: 22%; text-align: left; }
+.daybook-print-table th:nth-child(2), .daybook-print-table td:nth-child(2) { width: 12%; text-align: center; white-space: nowrap; }
+.daybook-print-table td:nth-child(2) { font-weight: 700; }
+.daybook-print-table th:nth-child(3), .daybook-print-table td:nth-child(3) { width: 46%; text-align: left; }
+.daybook-print-table th:nth-child(4), .daybook-print-table td:nth-child(4) { width: 20%; text-align: right; white-space: nowrap; }
+
+.daybook-print-total {
+  margin-top: 14px;
+  padding: 8px;
+  border: 1px solid #000;
+  text-align: right;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.daybook-group-row th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: #f0f0f0;
+  padding: 4px 6px;
+  border: 1px solid #000;
+}
+
+.daybook-subtotal-row td {
+  font-weight: 800;
+  border: 1px solid #000;
+  padding: 4px 6px;
+}
+
+/* ================================
+   PAGE + PRINT MEDIA — UNTOUCHED
+================================ */
+@page {
+  size: 110mm 220mm;
+  margin: 8mm 7mm 12mm 7mm;
+}
+
+@media print {
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: white;
+    height: auto;
+  }
+
+  body > *:not(#printInvoice) {
+    display: none !important;
+  }
+
+  #printInvoice {
+    display: block !important;
+    margin: 0;
+    padding: 0;
+    background: white;
+    width: 100%;
+  }
+
+  .receipt-copy {
+    min-height: 184mm;
+    transform: scale(0.88);
+    transform-origin: center center;
+  }
+}
+
+/* ================================
+   DESKTOP
+================================ */
+@media (min-width: 768px) {
+  #billingView,
+  #receiverView,
+  #daybookView {
+    padding: 20px 24px;
+  }
+
+  .app-tabs {
+    padding: 10px 16px;
+  }
+
+  .total-card {
+    padding: 18px 20px;
+  }
+
+  #grandTotal {
+    font-size: 40px;
+  }
+
+  .suggestion-card,
+  .bill-card,
+  .daybook-entry {
+    padding: 16px 20px;
+  }
+
+  .receiver-card {
+    padding: 20px 24px;
+  }
+
+  .primary-btn,
+  .secondary-btn,
+  .send-btn {
+    flex: unset;
+    min-width: 140px;
+  }
+}
+
+/* ================================
+   FILTER ROW HIDDEN UNTIL SEARCH
+================================ */
+#materialFilter {
+  display: none;
+}
+
+/* ================================
+   RECEIVER AMOUNT
+================================ */
+.receiver-amount {
+  margin-top: 10px;
+  font-size: 19px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+/* ================================
+   LIVE COUNT BADGE
+================================ */
+.live-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245,243,240,0.25);
+  border-radius: var(--r-full);
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  vertical-align: middle;
+  margin-left: 3px;
+  letter-spacing: 0;
+  will-change: opacity;
+}
+
+/* ================================
+   RECEIVER TAB NOTIFICATION BADGE
+================================ */
+.tab-btn[data-badge]:not([data-badge=""])::after {
+  content: attr(data-badge);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--retail);
+  color: white;
+  border-radius: var(--r-full);
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+/* ================================
+   DISCOUNT LINE TOTAL
+================================ */
+.line-total--discount {
+  color: var(--retail);
+}
+
+/* ================================
+   EMPTY BILL STATE
+================================ */
+.empty-bill-state {
+  text-align: center;
+  padding: 40px 24px 48px;
+}
+
+.empty-bill-hint {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* ================================
+   SEND MODAL BILL SUMMARY
+================================ */
+.modal-bill-summary {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* ================================
+   NARROW SCREEN ADJUSTMENTS
+================================ */
+@media (max-width: 360px) {
+  .header-controls { gap: 4px; }
+
+  #modeToggle,
+  .app-switch-btn  { padding: 8px 10px; font-size: 11px; }
+
+  #liveBtn         { padding: 8px 10px; font-size: 11px; }
+}
+
+/* ================================
+   BILL CARD STRUCTURE
+================================ */
+.bill-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 0;
+}
+
+.bill-card-top .bill-title {
+  flex: 1;
+  margin-bottom: 0;
+  line-height: 1.3;
+}
+
+.bill-card-top .delete-btn {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  min-height: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  border-radius: var(--r-sm);
+  margin-top: 1px;
+}
+
+/* ================================
+   INPUT LABELS
+================================ */
+.input-labels-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 1px;
+}
+
+.input-label {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding-left: 2px;
+}
+
+.input-labels-row .input-label:first-child { flex: 0.8; }
+.input-labels-row .input-label:last-child  { flex: 1.2; }
+
+.bill-card .input-row {
+  margin-top: 4px;
+}
+
+/* ================================
+   LINE TOTAL ROW
+================================ */
+.line-total-row {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* ================================
+   SUGGESTION CARD STRUCTURE
+================================ */
+.suggestion-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.suggestion-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.suggestion-action-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.suggestion-price {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.suggestion-add-btn {
+  width: 28px;
+  height: 28px;
+  background: var(--action);
+  color: var(--text-inverse);
+  border-radius: var(--r-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: background 0.14s ease, transform 0.1s ease;
+}
+
+.suggestion-card:hover .suggestion-add-btn {
+  background: var(--action-hover);
+  transform: scale(1.06);
+}
+
+/* ================================
+   RECEIVER CARD STRUCTURE
+================================ */
+.receiver-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.receiver-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.receiver-card-header .receiver-amount {
+  margin-top: 0;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ================================
+   DAYBOOK ENTRY STRUCTURE
+================================ */
+.daybook-entry-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.daybook-entry-row .daybook-name {
+  margin-top: 0;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.daybook-entry-row .daybook-amount {
+  margin-top: 0;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.daybook-entry .daybook-date {
+  margin-top: 4px;
+}
+
+#daybookSummary {
+  margin-bottom: 4px;
+}
+
+.daybook-total-amount {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.daybook-total-breakdown {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 3px;
+}
+
+/* ================================
+   LIVE DRAFT MODAL
+================================ */
+.live-modal-card {
+  background: var(--bg-elevated);
+  width: min(95vw, 440px);
+  max-height: 88vh;
+  border-radius: var(--r-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.live-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.live-close-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-full);
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.live-close-btn:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+#liveDraftListView,
+#liveDraftDetailView {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.live-draft-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.live-draft-card {
+  padding: 13px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  cursor: pointer;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease;
+  contain: layout style;
+}
+
+.live-draft-card:hover {
+  border-color: var(--border-default);
+  box-shadow: var(--shadow-sm);
+}
+
+.live-draft-card:active {
+  transform: scale(0.99);
+}
+
+.live-draft-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+}
+
+.live-draft-meta {
+  display: flex;
+  gap: 10px;
+  margin-top: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.live-draft-subtotal {
+  margin-top: 6px;
+  font-size: 19px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+/* ================================
+   LIVE DRAFT DETAIL VIEW
+================================ */
+.live-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 11px;
+  border-radius: var(--r-sm);
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid var(--border-subtle);
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.live-back-btn:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.live-detail-content {
+  padding-bottom: 4px;
+}
+
+.live-detail-header {
+  margin-bottom: 10px;
+}
+
+.live-detail-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+}
+
+.live-detail-meta {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.live-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.live-detail-table th,
+.live-detail-table td {
+  padding: 7px 5px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.live-detail-table th {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background: var(--bg-sunken);
+}
+
+.live-detail-table td:nth-child(3),
+.live-detail-table td:nth-child(4),
+.live-detail-table td:nth-child(5) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.live-detail-table th:nth-child(3),
+.live-detail-table th:nth-child(4),
+.live-detail-table th:nth-child(5) {
+  text-align: right;
+}
+
+.live-detail-total {
+  margin-top: 10px;
+  padding: 9px 12px;
+  background: var(--success-surface);
+  border: 1px solid #D1FAE5;
+  border-radius: var(--r-sm);
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--success);
+  text-align: right;
+}
+
+/* ================================
+   LIVE DRAFT CARD STRUCTURE
+================================ */
+.live-draft-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.live-draft-header .live-draft-subtotal {
+  margin-top: 0;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.live-draft-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.live-draft-footer .live-draft-meta {
+  margin-top: 0;
+}
+
+.live-draft-chevron {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* ================================
+   REVISION
+================================ */
+.revision-banner {
+  background: var(--revision-surface);
+  color: var(--revision);
+  padding: 9px 14px;
+  border-radius: var(--r-md);
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-left: 3px solid var(--revision);
+}
+
+.revision-banner button {
+  padding: 5px 11px;
+  border-radius: var(--r-sm);
+  background: var(--revision);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+}
+
+.revision-banner button:hover {
+  background: #4338CA;
+}
+
+.revise-btn {
+  background: var(--revision);
+  color: white;
+  flex: 1;
+  min-width: 100px;
+  padding: 13px;
+  border-radius: var(--r-md);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+}
+
+.revise-btn:hover {
+  background: #4338CA;
+  box-shadow: var(--shadow-sm);
+}
+
+.revise-btn:active {
+  transform: scale(0.98);
+}
+
+.live-revision-tag {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: var(--r-sm);
+  background: var(--revision-surface);
+  color: var(--revision);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ================================
+   REVISION VIEW TABS
+================================ */
+.revision-view-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 10px 0 4px;
+  flex-shrink: 0;
+}
+
+.revision-view-tab {
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+}
+
+.revision-view-tab:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.revision-view-tab-active {
+  background: var(--revision);
+  color: white;
+  border-color: var(--revision);
+}
+
+.revision-view-tab-active:hover {
+  background: #4338CA;
+}
+
+/* ================================
+   PRINT AUDIT STYLES — UNTOUCHED
+================================ */
+.print-revised-wm-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10mm 0;
+}
+
+.print-revised-wm-overlay span {
+  display: block;
+  transform: rotate(-35deg);
+  font-size: 16px;
+  font-weight: 900;
+  color: rgba(0,0,0,0.09);
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-family: Arial, sans-serif;
+}
+
+.print-revised-meta {
+  margin-top: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #333;
+  border-top: 1px solid #000;
+  padding-top: 3px;
+  font-family: Arial, sans-serif;
+}
+
+.print-revised-summary {
+  font-size: 9px;
+  font-weight: 400;
+  color: #555;
+  font-style: italic;
+  margin-top: 2px;
+  font-family: Arial, sans-serif;
+}
+
+.print-row-removed td { text-decoration: line-through; color: #999; }
+.print-row-added td   { background: #efefef; }
+.print-cell-changed   { background: #efefef !important; }
+.print-cell-changed-block { background: #efefef; padding: 1px 3px; }
+
+/* ================================
+   MODAL ANIMATIONS
+================================ */
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes cardRiseIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-overlay {
+  animation: overlayFadeIn 0.16s ease both;
+}
+
+.modal-card,
+.preview-card,
+.live-modal-card {
+  animation: cardRiseIn 0.2s cubic-bezier(0.32, 1.4, 0.58, 1) both;
+}
+
+/* ================================
+   SUGGESTION STAGGER
+================================ */
+@keyframes cardFadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.suggestion-card {
+  animation: cardFadeUp 0.16s ease both;
+  will-change: opacity, transform;
+}
+
+.suggestion-card:nth-child(1) { animation-delay: 0ms; }
+.suggestion-card:nth-child(2) { animation-delay: 30ms; }
+.suggestion-card:nth-child(3) { animation-delay: 55ms; }
+.suggestion-card:nth-child(4) { animation-delay: 76ms; }
+.suggestion-card:nth-child(5) { animation-delay: 94ms; }
+
+/* ================================
+   LIVE PULSE
+================================ */
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+#liveBtn.live-btn-active .live-count-badge {
+  animation: badgePulse 3s ease-in-out infinite;
+}
+
+/* ================================
+   LIVE REVISION ACCENT
+================================ */
+.live-draft-card:has(.live-revision-tag) {
+  box-shadow: inset 3px 0 0 var(--revision);
+}
+
+/* ================================
+   RECEIVER DONE BUTTON
+================================ */
+#receiverView .action-buttons .send-btn {
+  flex-basis: 100%;
+}
+
+/* ================================
+   DAYBOOK MODE ACCENTS
+================================ */
+.daybook-entry--w {
+  box-shadow: inset 3px 0 0 var(--action);
+}
+
+.daybook-entry--r {
+  box-shadow: inset 3px 0 0 var(--retail);
+}
+
+/* ================================
+   FOCUS CHOREOGRAPHY
+================================ */
+.bill-card:focus-within {
+  border-color: var(--border-default);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ================================
+   TOAST
+================================ */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  padding: 11px 18px;
+  border-radius: var(--r-md);
+  font-weight: 600;
+  font-size: 13px;
+  z-index: 999;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.toast--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast--success { background: var(--success); color: white; }
+.toast--error   { background: var(--retail);  color: white; }
+.toast--info    { background: var(--action);  color: var(--text-inverse); }
